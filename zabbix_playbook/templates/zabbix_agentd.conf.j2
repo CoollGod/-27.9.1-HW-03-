@@ -1,0 +1,7 @@
+# templates/zabbix_agentd.conf.j2
+PidFile=/var/run/zabbix/zabbix_agentd.pid
+LogFile=/var/log/zabbix/zabbix_agentd.log
+LogFileSize=0
+Server=84.201.132.147
+Hostname=84.201.132.147
+Include=/etc/zabbix/zabbix_agentd.d/*.conf
