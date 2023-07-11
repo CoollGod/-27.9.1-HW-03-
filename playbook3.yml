@@ -1,0 +1,37 @@
+---
+ - hosts: all
+   become: yes
+   vars:
+    zabbix_server_ip: "84.201.132.147" 
+    zabbix_agent_hostname: '{{ inventory_hostname }}'  
+
+
+   tasks:
+    - name: Install Zabbix agent 
+      apt:
+        name: zabbix-agent
+        state: present
+
+
+    - name: Copy Zabbix agent config
+      copy:
+        src: zabbix_agentd.conf
+        dest: /etc/zabbix/zabbix_agentd.conf
+        owner: root
+        group: root
+        mode: "0644"
+      notify: restart zabbix-agent
+
+
+    - name: Enable and start Zabbix agent 
+      systemd:
+        name: zabbix-agent
+        state: started
+        enabled: yes
+
+
+   handlers:
+    - name: restart zabbix-agent
+      systemd:
+        name: zabbix-agent
+        state: restarted
